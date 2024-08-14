@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -8,7 +7,7 @@
     <link rel="icon" href="Icon.png" type="image/png">
     <script src="EC.js" defer></script>
 
-    <!-- Google Fonts -->
+    <!-- Fontes -->
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -113,14 +112,34 @@
     <h1 class="text-center ofertas-title my-4">OFERTAS</h1>
 
     <div class="container">
-        <div class="d-flex justify-content-around flex-wrap">
-            <produto-card src="Evelyn Hugo.jpg" alt="Evelyn Hugo" title="Os sete maridos de Evelyn Hugo" price="R$ 40,89"></produto-card>
-            <produto-card src="Daisy Jones.jpg" alt="Daisy Jones" title="Daisy Jones and The Six" price="R$ 23,99"></produto-card>
-            <produto-card src="Mulher no escuro.jpg" alt="Mulher no escuro" title="Uma mulher no escuro" price="R$ 48,12"></produto-card>
-            <produto-card src="O bom filho.jpg" alt="O bom filho" title="O bom filho" price="R$ 44,99"></produto-card>
-            <produto-card src="Paciente silenciosa.jpg" alt="Paciente silenciosa" title="A paciente silenciosa" price="R$ 35,67"></produto-card>
+        <div class="d-flex justify-content-around flex-wrap" id="product-container">
+
         </div>
     </div>
+
+    <script>
+        // Função para buscar os produtos do db.json
+        async function loadProducts() {
+            try {
+                const response = await fetch('db.json');
+                const data = await response.json();
+                const products = data.products;
+                const productContainer = document.getElementById('product-container');
+                
+                products.forEach(product => {
+                    const productCard = `
+                        <produto-card src="${product.src}" alt="${product.alt}" title="${product.title}" price="${product.price}"></produto-card>
+                    `;
+                    productContainer.innerHTML += productCard;
+                });
+            } catch (error) {
+                console.error('Erro ao carregar os produtos:', error);
+            }
+        }
+
+        // Carregar os produtos
+        window.onload = loadProducts;
+    </script>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
